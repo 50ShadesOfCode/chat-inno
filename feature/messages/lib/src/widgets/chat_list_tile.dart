@@ -52,13 +52,13 @@ class _ChatListTileState extends State<ChatListTile> {
                   user.imageUrl != ''
                       ? Image.network(
                           user.imageUrl,
-                          height: 50,
-                          width: 50,
+                          height: AppDimens.IMAGE_SIZE_50,
+                          width: AppDimens.IMAGE_SIZE_50,
                         )
                       : SvgPicture.asset(
                           AppImages.profileIcon,
-                          height: 50,
-                          width: 50,
+                          height: AppDimens.IMAGE_SIZE_50,
+                          width: AppDimens.IMAGE_SIZE_50,
                         ),
                   Expanded(
                     child: Column(

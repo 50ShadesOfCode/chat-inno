@@ -5,7 +5,9 @@ import 'package:messages/src/bloc/messages_bloc.dart';
 import 'package:messages/src/widgets/chats_list.dart';
 
 class MessagesForm extends StatefulWidget {
-  const MessagesForm({super.key});
+  const MessagesForm({
+    super.key,
+  });
 
   @override
   State<MessagesForm> createState() => _MessagesFormState();
@@ -24,7 +26,9 @@ class _MessagesFormState extends State<MessagesForm> {
               height: AppDimens.heightAppBar,
               color: AppColors.of(context).gray,
               child: Padding(
-                padding: const EdgeInsets.only(right: 17.0),
+                padding: const EdgeInsets.only(
+                  right: AppDimens.PADDING_17,
+                ),
                 child: InkWell(
                   onTap: () {
                     showNewChatModalBottomSheet(context);
@@ -65,7 +69,7 @@ class _MessagesFormState extends State<MessagesForm> {
                           ),
                         ),
                         IconButton(
-                          iconSize: 62,
+                          iconSize: AppDimens.IMAGE_SIZE_62,
                           onPressed: () {
                             showNewChatModalBottomSheet(context);
                           },
@@ -105,7 +109,7 @@ class _MessagesFormState extends State<MessagesForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 19.0),
+                    padding: const EdgeInsets.only(left: AppDimens.PADDING_19),
                     child: Text(
                       'new_chat'.tr(),
                       style: AppFonts.normal20.copyWith(
@@ -130,7 +134,9 @@ class _MessagesFormState extends State<MessagesForm> {
                       width: 340,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30.0),
+                      padding: const EdgeInsets.only(
+                        top: AppDimens.PADDING_30,
+                      ),
                       child: ElevatedButton(
                         onPressed: () {
                           BlocProvider.of<MessagesBloc>(context).add(

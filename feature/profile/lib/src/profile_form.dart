@@ -144,13 +144,13 @@ class _ProfileFormState extends State<ProfileForm> {
                               : (_pickedFile == null)
                                   ? Image.network(
                                       state.imagePath,
-                                      height: AppDimens.imageSize,
-                                      width: AppDimens.imageSize,
+                                      height: AppDimens.IMAGE_SIZE_100,
+                                      width: AppDimens.IMAGE_SIZE_100,
                                     )
                                   : Image.file(
                                       _pickedFile!,
-                                      height: AppDimens.imageSize,
-                                      width: AppDimens.imageSize,
+                                      height: AppDimens.IMAGE_SIZE_100,
+                                      width: AppDimens.IMAGE_SIZE_100,
                                     ),
                           if (!state.isDisabled)
                             IconButton(
