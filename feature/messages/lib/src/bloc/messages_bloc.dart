@@ -24,6 +24,7 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
           const MessagesState(
             chats: <Chat>[],
             users: <User>[],
+            isLoading: true,
           ),
         ) {
     on<InitEvent>(_onInitEvent);
@@ -37,22 +38,23 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
     Emitter<MessagesState> emit,
   ) async {
     final List<Chat>? chats = await _getChatsUseCase.execute(const NoParams());
-    if (chats == null) {
-      return;
-    }
-    List<User> users = <User>[];
-    for (final Chat chat in chats) {
-      final User? user = await _getUserByUuidUseCase.execute(chat.receiverUuid);
-      if (user != null) {
-        users.add(user);
+    if (chats != null) {
+      List<User> users = <User>[];
+      for (final Chat chat in chats) {
+        final User? user =
+            await _getUserByUuidUseCase.execute(chat.receiverUuid);
+        if (user != null) {
+          users.add(user);
+        }
       }
+      emit(
+        state.copyWith(
+          chats: chats,
+          users: users,
+          isLoading: false,
+        ),
+      );
     }
-    emit(
-      state.copyWith(
-        chats: chats,
-        users: users,
-      ),
-    );
   }
 
   Future<void> _onNewChatEvent(
@@ -60,6 +62,11 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
     Emitter<MessagesState> emit,
   ) async {
     _createChatUseCase.execute(event.uuid);
+    emit(
+      state.copyWith(
+        isLoading: true,
+      ),
+    );
     add(InitEvent());
   }
 }

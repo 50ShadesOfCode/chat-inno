@@ -20,72 +20,80 @@ class _MessagesFormState extends State<MessagesForm> {
   Widget build(BuildContext context) {
     return BlocBuilder<MessagesBloc, MessagesState>(
       builder: (BuildContext context, MessagesState state) {
-        return Column(
-          children: <Widget>[
-            Container(
-              height: AppDimens.heightAppBar,
-              color: AppColors.of(context).gray,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  right: AppDimens.PADDING_17,
-                ),
-                child: InkWell(
-                  onTap: () {
-                    showNewChatModalBottomSheet(context);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(right: AppDimens.PADDING_6),
-                        child: Text(
-                          'new_chat'.tr(),
-                          style: AppFonts.normal14,
+        if (state.isLoading) {
+          return const Center(child: CircularProgressIndicator.adaptive());
+        } else {
+          return Column(
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                height: AppDimens.heightAppBar,
+                color: AppColors.of(context).gray,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    right: AppDimens.PADDING_17,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      showNewChatModalBottomSheet(context);
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(right: AppDimens.PADDING_6),
+                          child: Text(
+                            'new_chat'.tr(),
+                            style: AppFonts.normal14,
+                          ),
                         ),
-                      ),
-                      SvgPicture.asset(
-                        AppImages.newChatIcon,
-                      ),
-                    ],
+                        SvgPicture.asset(
+                          width: 18,
+                          height: 18,
+                          AppImages.newChatIcon,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: state.chats.isEmpty
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'empty'.tr(),
-                          style: AppFonts.normal20
-                              .copyWith(color: AppColors.of(context).darkGray),
-                        ),
-                        Text(
-                          'create'.tr(),
-                          style: AppFonts.normal20.copyWith(
-                            color: AppColors.of(context).darkGray,
+              Expanded(
+                child: state.chats.isEmpty
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'empty'.tr(),
+                            style: AppFonts.normal20.copyWith(
+                                color: AppColors.of(context).darkGray),
                           ),
-                        ),
-                        IconButton(
-                          iconSize: AppDimens.IMAGE_SIZE_62,
-                          onPressed: () {
-                            showNewChatModalBottomSheet(context);
-                          },
-                          icon: SvgPicture.asset(
-                            AppImages.newChatLargeIcon,
+                          Text(
+                            'create'.tr(),
+                            style: AppFonts.normal20.copyWith(
+                              color: AppColors.of(context).darkGray,
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                  : ChatList(
-                      chats: state.chats,
-                      users: state.users,
-                    ),
-            ),
-          ],
-        );
+                          IconButton(
+                            iconSize: AppDimens.IMAGE_SIZE_62,
+                            onPressed: () {
+                              showNewChatModalBottomSheet(context);
+                            },
+                            icon: SvgPicture.asset(
+                              AppImages.newChatLargeIcon,
+                            ),
+                          ),
+                        ],
+                      )
+                    : ChatList(
+                        chats: state.chats,
+                        users: state.users,
+                      ),
+              ),
+            ],
+          );
+        }
       },
     );
   }

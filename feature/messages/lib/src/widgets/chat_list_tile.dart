@@ -39,39 +39,74 @@ class _ChatListTileState extends State<ChatListTile> {
           BlocProvider.of<MessagesBloc>(context).add(OpenChatEvent(chat: chat));
         },
         child: Container(
+          alignment: Alignment.centerLeft,
           height: AppDimens.heightChatTile,
           decoration: BoxDecoration(
             color: AppColors.of(context).gray,
             borderRadius: BorderRadius.circular(AppDimens.BORDER_RADIUS_4),
           ),
-          child: Column(
-            children: <Widget>[
-              Text(chat.lastMessage?.sendTime.toString() ?? ''),
-              Row(
-                children: <Widget>[
-                  user.imageUrl != ''
-                      ? Image.network(
-                          user.imageUrl,
-                          height: AppDimens.IMAGE_SIZE_50,
-                          width: AppDimens.IMAGE_SIZE_50,
-                        )
-                      : SvgPicture.asset(
-                          AppImages.profileIcon,
-                          height: AppDimens.IMAGE_SIZE_50,
-                          width: AppDimens.IMAGE_SIZE_50,
-                        ),
-                  Expanded(
-                    child: Column(
-                      children: <Widget>[
-                        Text(user.username),
-                        Text(chat.lastMessage?.content ?? ''),
-                      ],
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: AppDimens.PADDING_11,
+            ),
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    'sdgsdgdsg',
+                    style: AppFonts.normal10.copyWith(
+                      color: AppColors.of(context).darkGray,
                     ),
                   ),
-                  Container(),
-                ],
-              ),
-            ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    user.imageUrl != ''
+                        ? Image.network(
+                            user.imageUrl,
+                            height: AppDimens.IMAGE_SIZE_30,
+                            width: AppDimens.IMAGE_SIZE_30,
+                          )
+                        : SvgPicture.asset(
+                            AppImages.profileIcon,
+                            height: AppDimens.IMAGE_SIZE_30,
+                            width: AppDimens.IMAGE_SIZE_30,
+                          ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            user.username,
+                            style: AppFonts.normal14,
+                          ),
+                          Text(
+                            chat.lastMessage?.content ?? 'No messages...',
+                            style: AppFonts.normal12.copyWith(
+                              color: AppColors.of(context).darkGray,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        right: AppDimens.PADDING_20,
+                      ),
+                      child: Container(
+                        child: SvgPicture.asset(
+                          AppImages.openChatIcon,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

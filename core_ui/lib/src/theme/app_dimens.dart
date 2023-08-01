@@ -64,6 +64,7 @@ class AppDimens {
   static const double IMAGE_SIZE_100 = 100.0;
   static const double IMAGE_SIZE_62 = 62.0;
   static const double IMAGE_SIZE_50 = 50.0;
+  static const double IMAGE_SIZE_30 = 30.0;
 
   static const double ELEVATION_2 = 2.0;
   static const double ELEVATION_8 = 8.0;
