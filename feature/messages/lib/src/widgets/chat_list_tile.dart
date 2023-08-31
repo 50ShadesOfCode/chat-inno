@@ -36,7 +36,12 @@ class _ChatListTileState extends State<ChatListTile> {
       padding: const EdgeInsets.only(bottom: AppDimens.PADDING_5),
       child: GestureDetector(
         onTap: () {
-          BlocProvider.of<MessagesBloc>(context).add(OpenChatEvent(chat: chat));
+          BlocProvider.of<MessagesBloc>(context).add(
+            OpenChatEvent(
+              chatUuid: chat.uuid,
+              receiverUuid: user.uuid,
+            ),
+          );
         },
         child: Container(
           alignment: Alignment.centerLeft,
@@ -55,7 +60,10 @@ class _ChatListTileState extends State<ChatListTile> {
                 Align(
                   alignment: Alignment.topRight,
                   child: Text(
-                    'sdgsdgdsg',
+                    chat.lastMessage == null
+                        ? ''
+                        : DateTimeTransformer.transform(
+                            chat.lastMessage!.sendTime),
                     style: AppFonts.normal10.copyWith(
                       color: AppColors.of(context).darkGray,
                     ),
@@ -64,17 +72,21 @@ class _ChatListTileState extends State<ChatListTile> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    user.imageUrl != ''
-                        ? Image.network(
-                            user.imageUrl,
-                            height: AppDimens.IMAGE_SIZE_30,
-                            width: AppDimens.IMAGE_SIZE_30,
-                          )
-                        : SvgPicture.asset(
-                            AppImages.profileIcon,
-                            height: AppDimens.IMAGE_SIZE_30,
-                            width: AppDimens.IMAGE_SIZE_30,
-                          ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(right: AppDimens.PADDING_5),
+                      child: user.imageUrl != ''
+                          ? Image.network(
+                              user.imageUrl,
+                              height: AppDimens.IMAGE_SIZE_30,
+                              width: AppDimens.IMAGE_SIZE_30,
+                            )
+                          : SvgPicture.asset(
+                              AppImages.profileIcon,
+                              height: AppDimens.IMAGE_SIZE_30,
+                              width: AppDimens.IMAGE_SIZE_30,
+                            ),
+                    ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +97,9 @@ class _ChatListTileState extends State<ChatListTile> {
                             style: AppFonts.normal14,
                           ),
                           Text(
-                            chat.lastMessage?.content ?? 'No messages...',
+                            chat.lastMessage == null
+                                ? 'No messages...'
+                                : chat.lastMessage!.text,
                             style: AppFonts.normal12.copyWith(
                               color: AppColors.of(context).darkGray,
                             ),

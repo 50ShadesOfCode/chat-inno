@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:navigation/navigation.dart';
 
@@ -17,6 +18,9 @@ class AppDI {
   static void initDependencies() {
     appLocator.registerSingleton<AppRouter>(
       AppRouter(),
+    );
+    appLocator.registerSingleton<FirebaseMessaging>(
+      FirebaseMessaging.instance,
     );
   }
 }

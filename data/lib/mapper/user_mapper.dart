@@ -1,6 +1,5 @@
+import 'package:data/entities/firebase_user.dart';
 import 'package:domain/domain.dart';
-
-import '../entities/firebase_user.dart';
 
 class UserMapper {
   static User mapFromFirebase(FirebaseUser firebaseUser) {

@@ -12,14 +12,20 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
   final GetChatsUseCase _getChatsUseCase;
   final CreateChatUseCase _createChatUseCase;
   final GetUserByUuidUseCase _getUserByUuidUseCase;
+  final FetchLocalUserUseCase _fetchLocalUserUseCase;
+  final AppRouter _appRouter;
 
   MessagesBloc({
+    required AppRouter appRouter,
     required GetChatsUseCase getChatsUseCase,
     required CreateChatUseCase createChatUseCase,
     required GetUserByUuidUseCase getUserByUuidUseCase,
+    required FetchLocalUserUseCase fetchLocalUserUseCase,
   })  : _getChatsUseCase = getChatsUseCase,
         _createChatUseCase = createChatUseCase,
         _getUserByUuidUseCase = getUserByUuidUseCase,
+        _appRouter = appRouter,
+        _fetchLocalUserUseCase = fetchLocalUserUseCase,
         super(
           const MessagesState(
             chats: <Chat>[],
@@ -29,6 +35,7 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
         ) {
     on<InitEvent>(_onInitEvent);
     on<NewChatEvent>(_onNewChatEvent);
+    on<OpenChatEvent>(_onOpenChatEvent);
 
     add(InitEvent());
   }
@@ -37,14 +44,20 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
     InitEvent event,
     Emitter<MessagesState> emit,
   ) async {
+    final User localUser =
+        await _fetchLocalUserUseCase.execute(const NoParams());
     final List<Chat>? chats = await _getChatsUseCase.execute(const NoParams());
     if (chats != null) {
       List<User> users = <User>[];
       for (final Chat chat in chats) {
-        final User? user =
-            await _getUserByUuidUseCase.execute(chat.receiverUuid);
+        final User? user = await _getUserByUuidUseCase.execute(
+            localUser.uuid == chat.senderUuid
+                ? chat.receiverUuid
+                : chat.senderUuid);
         if (user != null) {
           users.add(user);
+        } else {
+          users.add(User(username: 'Not found', uuid: '', imageUrl: ''));
         }
       }
       emit(
@@ -54,6 +67,10 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
           isLoading: false,
         ),
       );
+    } else {
+      emit(state.copyWith(
+        isLoading: false,
+      ));
     }
   }
 
@@ -68,5 +85,15 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
       ),
     );
     add(InitEvent());
+  }
+
+  Future<void> _onOpenChatEvent(
+    OpenChatEvent event,
+    Emitter<MessagesState> emit,
+  ) async {
+    _appRouter.push(ChatRoute(
+      chatUuid: event.chatUuid,
+      receiverUuid: event.receiverUuid,
+    ));
   }
 }

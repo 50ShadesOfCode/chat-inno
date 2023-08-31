@@ -1,4 +1,3 @@
-import 'package:domain/domain.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
@@ -7,10 +6,12 @@ abstract class MessagesEvent {}
 class InitEvent extends MessagesEvent {}
 
 class OpenChatEvent extends MessagesEvent {
-  final Chat chat;
+  final String chatUuid;
+  final String receiverUuid;
 
   OpenChatEvent({
-    required this.chat,
+    required this.chatUuid,
+    required this.receiverUuid,
   });
 }
 

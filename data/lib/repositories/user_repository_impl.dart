@@ -20,15 +20,21 @@ class UserRepositoryImpl extends UserRepository {
         _firebaseProvider = firebaseProvider;
 
   @override
+  Future<void> generateRandomCredentials() async {}
+
+  @override
   Future<User> fetchLocalUser() async {
     final String id = _storageProvider.getString(
       StorageConstants.id,
     );
-    final FirebaseUser firebaseUser =
+    final FirebaseUser? firebaseUser =
         await _firebaseProvider.getFirebaseUserById(id);
-    return UserMapper.mapFromFirebase(
-      firebaseUser,
-    );
+
+    return firebaseUser != null
+        ? UserMapper.mapFromFirebase(
+            firebaseUser,
+          )
+        : User(username: '', uuid: '', imageUrl: '');
   }
 
   @override
@@ -172,7 +178,6 @@ class UserRepositoryImpl extends UserRepository {
     final String uuid = _storageProvider.getString(
       StorageConstants.uuid,
     );
-    AppLogger().info(uuid);
     final List<FirebaseChat> firebaseChats =
         await _firebaseProvider.getChats(uuid);
     final List<Chat> chats = firebaseChats
@@ -180,24 +185,4 @@ class UserRepositoryImpl extends UserRepository {
         .toList();
     return chats.isEmpty ? null : chats;
   }
-
-  @override
-  Future<void> createChat(String uuid) async {
-    final String localUuid = _storageProvider.getString(StorageConstants.uuid);
-
-    final FirebaseChat chat = FirebaseChat(
-      receiverUuid: uuid,
-      senderUuid: localUuid,
-    );
-
-    await _firebaseProvider.createChat(chat);
-  }
-
-  @override
-  Future<List<Message>> getMessages(String uuid) async {
-    return [];
-  }
-
-  @override
-  Future<void> sendMessage(Message message) async {}
 }

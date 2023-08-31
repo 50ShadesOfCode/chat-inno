@@ -16,4 +16,5 @@ class AppImages {
   static const String editIcon = '${_baseIcons}edit.svg';
   static const String backIcon = '${_baseIcons}back.svg';
   static const String openChatIcon = '${_baseIcons}open_chat.svg';
+  static const String addFilesIcon = '${_baseIcons}plus_dark.svg';
 }

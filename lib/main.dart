@@ -13,25 +13,20 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: appLocator<FirebaseOptions>(),
   );
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-
-  final NotificationSettings notificationSettings =
-      await firebaseMessaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  AppLogger().info(
-      'User granted permission: ${notificationSettings.authorizationStatus}');
-
   AppDI.initDependencies();
 
   await dataDI.initDependencies();
+
+  final NotificationSettings notificationSettings =
+      await appLocator.get<FirebaseMessaging>().requestPermission(
+            alert: true,
+            announcement: false,
+            badge: true,
+            carPlay: false,
+            criticalAlert: false,
+            provisional: false,
+            sound: true,
+          );
 
   runApp(
     EasyLocalization(

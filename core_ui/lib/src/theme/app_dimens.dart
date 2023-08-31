@@ -46,25 +46,19 @@ class AppDimens {
   static const double MARGIN_16 = 16.0;
   static const double MARGIN_24 = 24.0;
 
-  static const double extent_ratio_0_34 = 0.34;
-
   static const double LETTER_SPACING_0_6 = 0.6;
 
   static const double tabBarHeight = 40;
-  static const double tabBarHeightAboutCompany = 42;
   static const double widthLogo = 122;
   static const double heightContainerEmployeesStatistic = 156;
-  static const double modalHeightDetailRecruiter = 200;
-  static const double modalHeightLastNotifications = 350;
-  static const double modalHeightDetailDiscount = 350;
-  static const double heightMarketStatisticsChart = 380;
-  static const double maxHeightOfVideos = 400;
   static const double popUpMenuHeight = 40;
 
   static const double IMAGE_SIZE_100 = 100.0;
   static const double IMAGE_SIZE_62 = 62.0;
   static const double IMAGE_SIZE_50 = 50.0;
+  static const double IMAGE_SIZE_40 = 40.0;
   static const double IMAGE_SIZE_30 = 30.0;
+  static const double IMAGE_SIZE_25 = 25.0;
 
   static const double ELEVATION_2 = 2.0;
   static const double ELEVATION_8 = 8.0;
@@ -92,4 +86,7 @@ class AppDimens {
   static const double heightAppBar = 55.0;
   static const double heightChatTile = 58.0;
   static const double heightNewChat = 325.0;
+  static const double heightTextField = 40.0;
+  static const double heightTabBar = 58.0;
+  static const double widthTextField = 250;
 }

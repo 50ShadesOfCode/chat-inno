@@ -44,18 +44,13 @@ class _ChatBottomBarState extends State<ChatBottomBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 9,
-                bottom: 5,
-                left: 6,
-              ),
-              child: IconButton(
-                iconSize: 24.3996,
-                onPressed: onTapAdd,
-                icon: SvgPicture.asset(
-                  AppImages.plusIcon,
-                ),
+            IconButton(
+              iconSize: AppDimens.IMAGE_SIZE_25,
+              onPressed: onTapAdd,
+              icon: SvgPicture.asset(
+                width: AppDimens.IMAGE_SIZE_25,
+                height: AppDimens.IMAGE_SIZE_25,
+                AppImages.addFilesIcon,
               ),
             ),
             Expanded(
@@ -65,19 +60,15 @@ class _ChatBottomBarState extends State<ChatBottomBar> {
                 hintText: 'message'.tr(),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 7,
-                top: 7,
-                bottom: 7,
+            IconButton(
+              iconSize: AppDimens.IMAGE_SIZE_25,
+              onPressed: onTapSend,
+              icon: SvgPicture.asset(
+                width: AppDimens.IMAGE_SIZE_25,
+                height: AppDimens.IMAGE_SIZE_25,
+                AppImages.sendIcon,
               ),
-              child: IconButton(
-                onPressed: onTapSend,
-                icon: SvgPicture.asset(
-                  AppImages.sendIcon,
-                ),
-              ),
-            )
+            ),
           ],
         ),
       ),

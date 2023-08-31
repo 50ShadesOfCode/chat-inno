@@ -1,7 +1,8 @@
 import 'package:core/core.dart';
+import 'package:data/data.dart';
 import 'package:data/providers/firebase_provider.dart';
 import 'package:data/providers/storage_provider.dart';
-import 'package:data/repositories/user_repository_impl.dart';
+import 'package:data/repositories/chat_repository_impl.dart';
 import 'package:domain/domain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,9 +36,28 @@ class DataDI {
         firebaseProvider: appLocator<FirebaseProvider>(),
       ),
     );
+    appLocator.registerSingleton<ConnectionRepository>(
+      ConnectionRepositoryImpl(),
+    );
+    appLocator.registerSingleton<ChatRepository>(
+      ChatRepositoryImpl(
+        firebaseProvider: appLocator<FirebaseProvider>(),
+        storageProvider: appLocator<StorageProvider>(),
+      ),
+    );
   }
 
   void initUseCases() {
+    appLocator.registerFactory<GetConnectionStatusUseCase>(
+      () => GetConnectionStatusUseCase(
+        connectionRepository: appLocator<ConnectionRepository>(),
+      ),
+    );
+    appLocator.registerFactory<GenerateRandomCredentialsUseCase>(
+      () => GenerateRandomCredentialsUseCase(
+        userRepository: appLocator<UserRepository>(),
+      ),
+    );
     appLocator.registerFactory<GetLocalUserUseCase>(
       () => GetLocalUserUseCase(
         userRepository: appLocator<UserRepository>(),
@@ -80,17 +100,27 @@ class DataDI {
     );
     appLocator.registerFactory<CreateChatUseCase>(
       () => CreateChatUseCase(
-        userRepository: appLocator<UserRepository>(),
-      ),
-    );
-    appLocator.registerFactory<GetMessagesUseCase>(
-      () => GetMessagesUseCase(
-        userRepository: appLocator<UserRepository>(),
+        chatRepository: appLocator<ChatRepository>(),
       ),
     );
     appLocator.registerFactory<SendMessageUseCase>(
       () => SendMessageUseCase(
-        userRepository: appLocator<UserRepository>(),
+        chatRepository: appLocator<ChatRepository>(),
+      ),
+    );
+    appLocator.registerFactory<GetMessagesStreamUseCase>(
+      () => GetMessagesStreamUseCase(
+        chatRepository: appLocator<ChatRepository>(),
+      ),
+    );
+    appLocator.registerFactory<DeleteChatUseCase>(
+      () => DeleteChatUseCase(
+        chatRepository: appLocator<ChatRepository>(),
+      ),
+    );
+    appLocator.registerFactory<GetChatStreamUseCase>(
+      () => GetChatStreamUseCase(
+        chatRepository: appLocator<ChatRepository>(),
       ),
     );
   }

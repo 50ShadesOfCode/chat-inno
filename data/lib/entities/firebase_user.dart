@@ -1,5 +1,3 @@
-import 'package:core/core.dart';
-
 class FirebaseUser {
   final String uuid;
   final String username;

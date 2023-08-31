@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:core/core.dart';
+import 'package:data/entities/firebase_chat.dart';
+import 'package:data/entities/firebase_message.dart';
 import 'package:data/entities/firebase_user.dart';
 import 'package:path/path.dart';
-
-import '../entities/firebase_chat.dart';
 
 class FirebaseProvider {
   final FirebaseStorage _firebaseStorage;
@@ -16,7 +16,7 @@ class FirebaseProvider {
   })  : _firebaseStorage = firebaseStorage,
         _firebaseFirestore = firebaseFirestore;
 
-  Future<FirebaseUser> getFirebaseUserById(String id) async {
+  Future<FirebaseUser?> getFirebaseUserById(String id) async {
     final DocumentReference<Map<String, dynamic>> docRef =
         _firebaseFirestore.collection('users').doc(id);
 
@@ -24,15 +24,7 @@ class FirebaseProvider {
 
     final Map<String, dynamic>? data = snapshot.data();
 
-    if (data == null) {
-      return FirebaseUser(
-        imageUrl: '',
-        uuid: '',
-        username: '',
-      );
-    } else {
-      return FirebaseUser.fromJson(data);
-    }
+    return data != null ? FirebaseUser.fromJson(data) : null;
   }
 
   Future<FirebaseUser?> getFirebaseUserByUuid(String uuid) async {
@@ -57,7 +49,6 @@ class FirebaseProvider {
           (DocumentReference<Map<String, dynamic>> documentSnapshot) =>
               id = documentSnapshot.id,
         );
-    AppLogger().debug(id);
     return id;
   }
 
@@ -116,5 +107,65 @@ class FirebaseProvider {
 
   Future<void> createChat(FirebaseChat chat) async {
     await _firebaseFirestore.collection('chats').add(chat.toJson());
+  }
+
+  Future<void> deleteChat(String uuid) async {
+    await _firebaseFirestore.collection('chats').doc(uuid).delete();
+  }
+
+  Future<List<String>> uploadFiles(List<File> files) async {
+    final Reference storageRef = _firebaseStorage.ref();
+
+    final List<String> urls = <String>[];
+
+    for (final File file in files) {
+      final Reference fileRef =
+          storageRef.child('files/${basename(file.path)}');
+      await fileRef.putFile(file);
+      final String downloadUrl = await fileRef.getDownloadURL();
+      urls.add(downloadUrl);
+    }
+
+    return urls;
+  }
+
+  Future<void> sendMessage(FirebaseMessage message) async {
+    await _firebaseFirestore.collection(message.chatUuid).add(message.toJson());
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getMessagesStreamByChatId(
+      String uuid) {
+    AppLogger().debug('uuid: $uuid');
+    return _firebaseFirestore.collection(uuid).orderBy('send_time').snapshots();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getChatsStreamByChatId(
+      String uuid) {
+    //TODO: check later
+    return _firebaseFirestore
+        .collection('chats')
+        .where('sender_uuid', isEqualTo: uuid)
+        .snapshots();
+  }
+
+  Future<void> setLastMessage(FirebaseMessage message) async {
+    final QuerySnapshot<Map<String, dynamic>> docs = await _firebaseFirestore
+        .collection('chats')
+        .where('uuid', isEqualTo: message.chatUuid)
+        .get();
+
+    docs.docs.first.reference.update(<String, dynamic>{
+      'last_message': message.toJson(),
+    });
+  }
+
+  Future<Stream<DocumentSnapshot<Map<String, dynamic>>>> getChatStream(
+      String uuid) async {
+    final QuerySnapshot<Map<String, dynamic>> docs = await _firebaseFirestore
+        .collection('chats')
+        .where('uuid', isEqualTo: uuid)
+        .get();
+
+    return docs.docs.first.reference.snapshots();
   }
 }

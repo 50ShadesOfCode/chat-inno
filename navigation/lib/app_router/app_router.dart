@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:chat/chat.dart';
+import 'package:chat_feature/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:home/home.dart';
 import 'package:messages/messages.dart';
@@ -12,7 +12,7 @@ part 'app_router.gr.dart';
   routes: <AutoRoute>[
     AutoRoute(
       initial: true,
-      page: HomeForm,
+      page: HomeScreen,
       children: <AutoRoute>[
         CustomRoute(
           transitionsBuilder: TransitionsBuilders.fadeIn,

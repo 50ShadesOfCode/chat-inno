@@ -167,6 +167,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     Column(
                       children: <Widget>[
                         AppTextField(
+                          width: AppDimens.widthTextField,
                           controller: uuidController,
                           hintText: state.uuid != '' ? state.uuid : 'UUID'.tr(),
                           disabled: state.isDisabled,
@@ -175,12 +176,12 @@ class _ProfileFormState extends State<ProfileForm> {
                               : null,
                         ),
                         Padding(
-
                           padding: const EdgeInsets.only(
                             top: AppDimens.PADDING_11,
                             bottom: AppDimens.PADDING_14,
                           ),
                           child: AppTextField(
+                            width: AppDimens.widthTextField,
                             errorText: null,
                             disabled: state.isDisabled,
                             controller: nameController,

@@ -61,7 +61,9 @@ class _AppBottomNavigationBarItemState
         onTap: onTapped,
         child: AnimatedContainer(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(
+              AppDimens.BORDER_RADIUS_4,
+            ),
             color: _selectedIndex == index
                 ? Colors.white60
                 : AppColors.of(context).gray,
@@ -73,12 +75,12 @@ class _AppBottomNavigationBarItemState
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(
-                  right: 5,
+                  right: AppDimens.PADDING_5,
                 ),
                 child: SvgPicture.asset(
                   icon,
-                  width: 25,
-                  height: 25,
+                  width: AppDimens.IMAGE_SIZE_25,
+                  height: AppDimens.IMAGE_SIZE_25,
                 ),
               ),
               Text(

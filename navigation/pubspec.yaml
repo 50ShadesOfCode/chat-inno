@@ -23,7 +23,7 @@ dependencies:
     path: ../feature/messages
   profile:
     path: ../feature/profile
-  chat:
+  chat_feature:
     path: ../feature/chat
 
 dev_dependencies:

@@ -26,18 +26,18 @@ class AppTextField extends StatelessWidget {
         color: AppColors.of(context).gray,
         borderRadius: BorderRadius.circular(4),
       ),
-      height: 40,
+      height: AppDimens.heightTextField,
       width: width,
       child: TextField(
         enabled: disabled != null ? !disabled! : null,
         decoration: InputDecoration(
-          hintText: hintText, errorText: errorText,
+          hintText: hintText,
+          errorText: errorText,
           border: underline
               ? UnderlineInputBorder(
                   borderSide: BorderSide(color: AppColors.of(context).blue),
                 )
               : null,
-          //contentPadding: EdgeInsets.symmetric(horizontal: 9),
         ),
         controller: controller,
       ),

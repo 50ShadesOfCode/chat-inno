@@ -3,14 +3,14 @@ import 'package:domain/domain.dart';
 import 'package:domain/usecases/usecase.dart';
 
 class CreateChatUseCase extends FutureUseCase<String, void> {
-  final UserRepository _userRepository;
+  final ChatRepository _chatRepository;
 
   CreateChatUseCase({
-    required UserRepository userRepository,
-  }) : _userRepository = userRepository;
+    required ChatRepository chatRepository,
+  }) : _chatRepository = chatRepository;
 
   @override
   Future<void> execute(String input) async {
-    await _userRepository.createChat(input);
+    await _chatRepository.createChat(input);
   }
 }

@@ -18,5 +18,7 @@
   "edit_message": "Edit message",
   "delete_message": "Delete message",
   "message": "Message",
-  "writing": "writing"
+  "writing": "writing",
+  "now": "Now",
+  "minutes_ago": "minutes ago"
 }

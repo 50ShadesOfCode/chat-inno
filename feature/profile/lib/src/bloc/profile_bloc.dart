@@ -89,46 +89,45 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             isAlreadyExists: state.isAlreadyExists,
           ),
         );
+      }
+      if (state.username == '') {
+        _addUserUseCase.execute(
+          User(
+            username: event.username,
+            uuid: event.uuid,
+            imageUrl: event.photo != null ? event.photo!.path : '',
+          ),
+        );
+        emit(
+          state.copyWith(
+            isDisabled: true,
+            isAuthorized: true,
+            username: event.username,
+            uuid: event.uuid,
+            imagePath: event.photo != null ? event.photo!.path : '',
+            isAlreadyExists: state.isAlreadyExists,
+          ),
+        );
       } else {
-        if (state.username == '') {
-          _addUserUseCase.execute(
-            User(
-              username: event.username,
-              uuid: event.uuid,
-              imageUrl: event.photo != null ? event.photo!.path : '',
-            ),
-          );
-          emit(
-            state.copyWith(
-              isDisabled: true,
-              isAuthorized: true,
-              username: event.username,
-              uuid: event.uuid,
-              imagePath: event.photo != null ? event.photo!.path : '',
-              isAlreadyExists: state.isAlreadyExists,
-            ),
-          );
-        } else {
-          _setUserUseCase.execute(
-            User(
-              username: event.username,
-              uuid: event.uuid,
-              imageUrl: event.photo != null
-                  ? event.photo!.path
-                  : (state.imagePath != '' ? state.imagePath : ''),
-            ),
-          );
-          emit(
-            state.copyWith(
-              isAuthorized: true,
-              isDisabled: true,
-              uuid: event.uuid,
-              username: event.username,
-              imagePath: state.imagePath,
-              isAlreadyExists: state.isAlreadyExists,
-            ),
-          );
-        }
+        _setUserUseCase.execute(
+          User(
+            username: event.username,
+            uuid: event.uuid,
+            imageUrl: event.photo != null
+                ? event.photo!.path
+                : (state.imagePath != '' ? state.imagePath : ''),
+          ),
+        );
+        emit(
+          state.copyWith(
+            isAuthorized: true,
+            isDisabled: true,
+            uuid: event.uuid,
+            username: event.username,
+            imagePath: state.imagePath,
+            isAlreadyExists: state.isAlreadyExists,
+          ),
+        );
       }
     }
   }

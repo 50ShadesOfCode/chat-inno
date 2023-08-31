@@ -2,15 +2,15 @@ import 'package:domain/domain.dart';
 
 import 'usecase.dart';
 
-class SendMessageUseCase extends FutureUseCase<Message, void> {
-  final UserRepository _userRepository;
+class SendMessageUseCase extends FutureUseCase<SendMessageRequest, void> {
+  final ChatRepository _chatRepository;
 
   SendMessageUseCase({
-    required UserRepository userRepository,
-  }) : _userRepository = userRepository;
+    required ChatRepository chatRepository,
+  }) : _chatRepository = chatRepository;
 
   @override
-  Future<void> execute(Message input) async {
-    await _userRepository.sendMessage(input);
+  Future<void> execute(SendMessageRequest input) async {
+    await _chatRepository.sendMessage(input);
   }
 }

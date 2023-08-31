@@ -6,8 +6,9 @@ class MessageMapper {
     return Message(
       chatUuid: firebaseMessage.chatUuid,
       senderUuid: firebaseMessage.senderUuid,
-      content: firebaseMessage.content,
+      text: firebaseMessage.text,
       sendTime: firebaseMessage.sendTime,
+      files: firebaseMessage.files,
     );
   }
 
@@ -15,8 +16,9 @@ class MessageMapper {
     return FirebaseMessage(
       chatUuid: message.chatUuid,
       senderUuid: message.senderUuid,
-      content: message.content,
+      text: message.text,
       sendTime: message.sendTime,
+      files: message.files,
     );
   }
 }

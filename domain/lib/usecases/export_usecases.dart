@@ -1,10 +1,14 @@
 export 'add_user_use_case.dart';
 export 'create_chat_use_case.dart';
+export 'delete_chat_use_case.dart';
 export 'delete_user_use_case.dart';
 export 'fetch_local_user_use_case.dart';
+export 'generate_random_credentials_use_case.dart';
+export 'get_chat_stream_use_case.dart';
 export 'get_chats_use_case.dart';
+export 'get_connection_status_use_case.dart';
 export 'get_local_user_usecase.dart';
-export 'get_messages_use_case.dart';
+export 'get_messages_stream_use_case.dart';
 export 'get_user_by_uuid_use_case.dart';
 export 'send_message_use_case.dart';
 export 'set_image_use_case.dart';

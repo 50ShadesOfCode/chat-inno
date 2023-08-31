@@ -1,4 +1,4 @@
-name: chat
+name: chat_feature
 description: A new Flutter package project.
 version: 0.0.1
 publish_to: none
@@ -17,6 +17,11 @@ dependencies:
     path: ../../core_ui
   domain:
     path: ../../domain
+
+  file_picker: ^5.3.3
+  mime: ^1.0.4
+  flutter_carousel_widget: ^2.0.4
+  flutter_file_downloader: ^1.1.2
 
 dev_dependencies:
   flutter_test:

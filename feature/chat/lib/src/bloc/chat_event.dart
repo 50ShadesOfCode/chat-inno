@@ -7,19 +7,33 @@ import 'package:flutter/foundation.dart';
 abstract class ChatEvent {}
 
 class InitEvent extends ChatEvent {
-  final String uuid;
+  final String receiverUuid;
+  final String chatUuid;
 
   InitEvent({
-    required this.uuid,
+    required this.chatUuid,
+    required this.receiverUuid,
   });
 }
 
 class SendMessageEvent extends ChatEvent {
   final String message;
-  final List<File>? files;
+  final List<File> files;
 
   SendMessageEvent({
     required this.message,
-    this.files,
+    required this.files,
   });
 }
+
+class UpdateEvent extends ChatEvent {
+  final List<Message> messages;
+
+  UpdateEvent({
+    required this.messages,
+  });
+}
+
+class ListenForMessagesEvent extends ChatEvent {}
+
+class DeleteChatEvent extends ChatEvent {}

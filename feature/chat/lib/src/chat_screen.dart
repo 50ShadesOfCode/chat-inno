@@ -1,4 +1,4 @@
-import 'package:chat/src/bloc/chat_bloc.dart';
+import 'package:chat_feature/src/bloc/chat_bloc.dart';
 import 'package:core/core.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
@@ -7,19 +7,29 @@ import 'chat_form.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({
-    required this.uuid,
+    required this.chatUuid,
+    required this.receiverUuid,
     super.key,
   });
 
-  final String uuid;
+  final String chatUuid;
+  final String receiverUuid;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ChatBloc>(
       create: (_) => ChatBloc(
-        getMessagesUseCase: appLocator<GetMessagesUseCase>(),
+        appRouter: appLocator<AppRouter>(),
+        getChatStreamUseCase: appLocator<GetChatStreamUseCase>(),
+        getUserByUuidUseCase: appLocator<GetUserByUuidUseCase>(),
         sendMessagesUseCase: appLocator<SendMessageUseCase>(),
-      )..add(InitEvent(uuid: uuid)),
+        getMessagesStreamUseCase: appLocator<GetMessagesStreamUseCase>(),
+        deleteChatUseCase: appLocator<DeleteChatUseCase>(),
+        fetchLocalUserUseCase: appLocator<FetchLocalUserUseCase>(),
+      )..add(InitEvent(
+          chatUuid: chatUuid,
+          receiverUuid: receiverUuid,
+        )),
       child: const ChatForm(),
     );
   }
